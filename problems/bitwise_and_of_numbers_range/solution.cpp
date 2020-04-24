@@ -1,11 +1,11 @@
 class Solution {
 public:
     int rangeBitwiseAnd(int m, int n) {
-        int ret=n;
-        for(int i=m;i<n;i++){
-            ret&=i;
-            if(!ret)return ret;
-        }
-        return ret;
+        int ret = 0;
+    	for (int bit = 30; bit >= 0; bit--) {
+	    	if ((m & (1 << bit)) != (n & (1 << bit)))break;
+	    	else ret |= m & (1 << bit);
+	    }
+	    return ret;
     }
 };

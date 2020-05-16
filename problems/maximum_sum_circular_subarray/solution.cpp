@@ -1,28 +1,28 @@
 class Solution {
 public:
-    int maxSubarraySumCircular(vector<int>& A) {
-        int n = A.size();
-        int max_straight_SUM = INT_MIN;
-        int min_straight_SUM = INT_MAX;
-        int array_SUM = 0;
+	int maxSubarraySumCircular(vector<int>& A) {
+        int n=(int)A.size();
         
-        int temp_maxSUM = 0;
-        int temp_minSUM = 0;
-        
-        for(int i=0;i<n;++i)
-        {
-            array_SUM +=A[i];
-            
-            temp_maxSUM += A[i];
-            max_straight_SUM = max_straight_SUM<temp_maxSUM? temp_maxSUM:max_straight_SUM;
-            temp_maxSUM = temp_maxSUM<0?0:temp_maxSUM;
-            
-            temp_minSUM += A[i];
-            min_straight_SUM = min_straight_SUM>temp_minSUM? temp_minSUM:min_straight_SUM;
-            temp_minSUM = temp_minSUM>0?0:temp_minSUM;
-        }
-        if(array_SUM==min_straight_SUM)
-            return max_straight_SUM;
-        return max(max_straight_SUM,(array_SUM-min_straight_SUM));
-    }
+		long long sumAll = 0, maxSum = LLONG_MIN, minSum = LLONG_MAX, ans = LLONG_MIN;
+
+		long long temp_maxSUM = 0, temp_minSUM = 0;
+
+		for (int i = 0; i < n; ++i)
+		{
+			sumAll += A[i];
+
+			temp_maxSUM += A[i];
+			maxSum = max(maxSum, temp_maxSUM);
+			temp_maxSUM = max(temp_maxSUM, 0LL);
+
+			temp_minSUM += A[i];
+			minSum = min(minSum, temp_minSUM);
+			temp_minSUM = min(temp_minSUM, 0LL);
+		}
+		if (sumAll == minSum)
+			ans= maxSum;
+        else
+		ans= max(maxSum, (sumAll - minSum));
+		return ans;
+	}
 };

@@ -1,28 +1,29 @@
 class Solution {
 public:
-    vector<int> peopleIndexes(vector<vector<string>>& favoriteCompanies) {
-        
-        int n=favoriteCompanies.size();
-        map<string,vector<int>>mp;
-        for(int i=0;i<n;i++){
-            for(int j=0;j<favoriteCompanies[i].size();j++){
-                mp[favoriteCompanies[i][j]].push_back(i);
+    vector<int> peopleIndexes(vector<vector<string>> v) {
+        for (auto& it : v)sort(it.begin(), it.end());
+
+        vector<int> ans;
+        for (int i = 0; i < v.size(); i++) {
+            bool exist = 0;
+            for (int j = 0; j < v.size() && !exist; j++)
+                if (j != i && v[j].size() > v[i].size()) {
+                int cur = 0, idx = -1;
+                while (cur < v[i].size()) {
+                    idx = lower_bound(v[j].begin() + idx + 1, v[j].end(), v[i][cur]) - v[j].begin();
+                    if (idx != v[j].size() && v[i][cur] == v[j][idx])
+                        cur++;
+                    else
+                        break;
+                }
+                if (cur == v[i].size()) {
+                    exist = 1;
+                    break;
+                }
             }
+            if (!exist)
+                ans.push_back(i);
         }
-        vector<int>v;
-        
-        for(int i=0;i<n;i++){
-            unordered_map<int,int>tmp;
-            int ans=0;
-            for(int j=0;j<favoriteCompanies[i].size();j++){
-                for(auto it:mp[favoriteCompanies[i][j]])tmp[it]++;
-            }
-            int cnt=0;
-            for(auto it:tmp){
-                if(it.second==favoriteCompanies[i].size())cnt++;
-            }
-            if(cnt<=1)v.push_back(i);
-        }
-        return v;
+        return ans;
     }
 };

@@ -9,11 +9,14 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        int cnt=0;
-        while(head!=nullptr&&cnt++<1e5){
-            head=head->next;
+        if(head==nullptr)return 0;
+        ListNode*slow=head;
+        ListNode*fast=head;
+        while(fast!=nullptr&&fast->next!=nullptr&&slow!=nullptr){
+            fast=fast->next->next;
+            slow=slow->next;
+            if(slow==fast)return 1;;
         }
-        cout<<cnt<<endl;
-        return cnt>=1e5;
+        return 0;
     }
 };

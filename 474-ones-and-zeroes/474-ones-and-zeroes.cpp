@@ -1,8 +1,9 @@
 class Solution {
-    int mem[605][105][105];
+    int mem[105][105][605];
 public:
-    int findMaxForm(vector<string>& strs, int mm, int nn) {
-        memset(mem,0,sizeof mem);
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        memset(mem,-1,sizeof mem);
+        int mm=0,nn=0;
         vector<vector<int>>v;
         for(auto it:strs){
             int ones=0,zeros=0;
@@ -10,20 +11,19 @@ public:
                 ch=='0'?++zeros:++ones;
             }
             v.push_back({zeros,ones});
+            mm+=zeros;nn+=ones;
         }
-        for(int i=v.size()-1;i>=0;--i){
-            for(int m=0;m<=mm;++m){
-                for(int n=0;n<=nn;++n){    
-                    int &ret=mem[i][m][n];
-                    ret=mem[i+1][m][n];  
-                    if(m>=v[i][0]&&n>=v[i][1])
-                        ret=max(ret,mem[i+1][m-v[i][0]][n-v[i][1]]+1);
-                }
-            }
-        }
-       for(int i=v.size()-1;i>=0;--i){
-            cout<<mem[i][mm][nn]<<" ";
-        }
-        return mem[0][mm][nn];
+        if(mm<=m&&nn<=n)return v.size();
+        return solve(v,m,n,0);
+    }
+    int solve(vector<vector<int>>&v,int m,int n,int i){
+        if(n<0||m<0)return -1e9;
+        if(i==v.size())return 0;
+        int &ret=mem[m][n][i];
+        if(~ret)return ret;
+        ret=solve(v,m,n,i+1);  
+        ret=max(ret,solve(v,m-v[i][0],n-v[i][1],i+1)+1);
+        return ret;
+
     }
 };

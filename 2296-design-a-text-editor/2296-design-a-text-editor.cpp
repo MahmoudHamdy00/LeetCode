@@ -18,7 +18,6 @@ public:
     }
     
     string cursorLeft(int k) {
-        int len=min(10,k);
         while(k--&&!l.empty()){
             r.push_front(l.back());           
             l.pop_back();
@@ -27,7 +26,6 @@ public:
     }
     
     string cursorRight(int k) {
-        int len=min(10,k);
         while(k--&&r.size()){
             l.push_back(r.front());
             r.pop_front();

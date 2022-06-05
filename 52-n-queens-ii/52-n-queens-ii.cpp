@@ -1,0 +1,30 @@
+class Solution {
+    set<vector<string>>ret;
+    vector<string>tmp;
+    vector<int>col,dig1,dig2;
+    int n;
+public:
+    int totalNQueens(int n) {
+        col=dig1=vector<int>(3*n);
+        dig2=vector<int>(3*n+1);
+        tmp=vector<string>(n,string(n,'.'));
+        this->n=n;
+        solveNQueens2(0);
+        return ret.size();
+    }
+    
+     void solveNQueens2(int i) {
+        if(i==n){
+            ret.insert(tmp);
+        }
+        for(int j=0;j<n;++j){
+            if(!col[j]&&!dig1[i+j]&&!dig2[i-j+n]){
+                col[j]=dig1[i+j]=dig2[i-j+n]=1;
+                tmp[i][j]='Q';
+                solveNQueens2(i+1);
+                tmp[i][j]='.';
+                col[j]=dig1[i+j]=dig2[i-j+n]=0; 
+            }
+        }
+    }
+};

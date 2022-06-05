@@ -1,11 +1,7 @@
 class TextEditor {
-    string s;
     deque<char> l,r;
-    int id;
 public:
     TextEditor() {
-        s="";
-        id=0;
     }
     
     void addText(string text) {
@@ -24,15 +20,10 @@ public:
     string cursorLeft(int k) {
         int len=min(10,k);
         while(k--&&!l.empty()){
-            r.push_front(l.back());
-            cout<<l.back();
-            
+            r.push_front(l.back());           
             l.pop_back();
         }
-        string tmp="";
-        int st=max(0,(int)l.size()-10);
-        for(int i =st;i<st+10&&i<l.size();++i)tmp+=l[i];
-        return tmp;
+        return last_10();
     }
     
     string cursorRight(int k) {
@@ -41,6 +32,9 @@ public:
             l.push_back(r.front());
             r.pop_front();
         }
+        return last_10();
+    }
+    string last_10(){
         string tmp="";
         int st=max(0,(int)l.size()-10);
         for(int i =st;i<st+10&&i<l.size();++i)tmp+=l[i];

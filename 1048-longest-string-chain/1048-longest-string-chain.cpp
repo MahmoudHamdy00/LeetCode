@@ -13,18 +13,22 @@ public:
                 int_to_string[id]=words[i];
             }
         }
+        int id=string_to_int.size();
+        string_to_int["1"]=id;
+        int_to_string[id]="1";
         adj_list=vector<vector<int>>(n+1);
         for(int i=0;i<n;++i){
             for(int j=0;j<n;++j){
-                if(is_predecessor(words[i],words[j]))adj_list[string_to_int[words[i]]].push_back(string_to_int[words[j]]);
+                if(words[i].size()+1==words[j].size())adj_list[string_to_int[words[i]]].push_back(string_to_int[words[j]]);
             }
         }
         memset(mem,-1,sizeof mem);
         int ret=0;
-        for(string s:words)ret=max(ret,dfs(string_to_int[s]));
+        for(string s:words)ret=max(ret,dfs(string_to_int[s],string_to_int["1"]));
         return ret;
     }
     bool is_predecessor(string &a,string& b){
+        if(a=="1")return 1;
         if(a.size()>=b.size())return 0;
         bool ok=0;
         for(int i=0,j=0;i<b.size();++i){
@@ -34,12 +38,13 @@ public:
         }
         return 1;
     }
-    int dfs(int node){
+    int dfs(int node,int prv){
+        if(!is_predecessor(int_to_string[prv],int_to_string[node]))return 0;
         int& ret=mem[node];
         if(~ret)return ret;
         ret=0;
         for(int nxt:adj_list[node]){
-            ret=max(ret,dfs(nxt));
+            ret=max(ret,dfs(nxt,node));
         }
         ret+=1;
         return ret;

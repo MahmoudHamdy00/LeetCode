@@ -1,5 +1,5 @@
 class Solution {
-    int mem[1001][1001];
+    int mem[1005][1005];
     map<string,int>string_to_int;
     string int_to_string[1001];
 public:
@@ -25,11 +25,20 @@ public:
                 int_to_string[id]=words[i];
             }
         }
-        memset(mem,-1,sizeof mem);
-        int ret=0;
-        for(int i=0;i<words.size();++i){
-            ret=max(ret,longestStrChain(i,string_to_int[words[i]],words)+1);
+        for(int i=0;i<words.size();++i)mem[words.size()][i]=1;
+        for(int i=words.size()-1;i>=0;--i){
+            for(int lst=0;lst<=i;++lst){
+                int &ret=mem[i][lst];
+                ret=mem[i+1][lst];
+                if(is_predecessor(int_to_string[lst],words[i]))
+                    ret=max(ret,mem[i+1][string_to_int[words[i]]]+1);
+            }
         }
+        int ret=0;
+        for(int i=words.size()-1;i>=0;--i)
+            for(int lst=0;lst<=words.size();++lst){
+                    ret=max(ret,mem[i][lst]);
+            }
         return ret;
     }
     int longestStrChain(int i,int lst,vector<string>& words) {

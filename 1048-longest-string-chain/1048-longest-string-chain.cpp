@@ -1,3 +1,6 @@
+//all of these are accepted solutions
+
+/*
 class Solution {
     vector<vector<int>>adj_list;
     int mem[1005];
@@ -51,9 +54,9 @@ public:
     }
 };
 
+*/
 
 
-/*
 //dfs solution
 class Solution {
     map<string,vector<string>>adj_list;
@@ -92,7 +95,7 @@ public:
         return mp[node]=ret+1;
     }
 };
-*/
+
 
 
 

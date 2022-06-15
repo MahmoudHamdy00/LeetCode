@@ -59,19 +59,32 @@ public:
 
 //dfs solution
 class Solution {
-    map<string,vector<string>>adj_list;
-    map<string,int>mp;
+    vector<vector<int>>adj_list;
+    int mem[1005];
+    map<string,int>string_to_int;
+    string int_to_string[1001];
 public:
     int longestStrChain(vector<string>& words) {
         int n=words.size();
         for(int i=0;i<n;++i){
-            for(int j=0;j<n;++j){
-                if(words[i].size()+1==words[j].size())adj_list[words[i]].push_back(words[j]);
+            if(string_to_int.find(words[i])==string_to_int.end()){
+                int id=string_to_int.size();
+                string_to_int[words[i]]=id;
+                int_to_string[id]=words[i];
             }
         }
+        int id=string_to_int.size();
+        string_to_int["1"]=id;
+        int_to_string[id]="1";
+        adj_list=vector<vector<int>>(n+1);
+        for(int i=0;i<n;++i){
+            for(int j=0;j<n;++j){
+                if(words[i].size()+1==words[j].size())adj_list[string_to_int[words[i]]].push_back(string_to_int[words[j]]);
+            }
+        }
+        memset(mem,-1,sizeof mem);
         int ret=0;
-        string t="1";
-        for(string s:words)ret=max(ret,dfs(s,t));
+        for(string s:words)ret=max(ret,dfs(string_to_int[s],string_to_int["1"]));
         return ret;
     }
     bool is_predecessor(string &a,string& b){
@@ -85,14 +98,16 @@ public:
         }
         return 1;
     }
-    int dfs(string& node,string &prv){
-        if(!is_predecessor(prv,node))return 0;
-        if(mp.find(node)!=mp.end())return mp[node];
-        int ret=0;
-        for(string nxt:adj_list[node]){
+    int dfs(int node,int prv){
+        if(!is_predecessor(int_to_string[prv],int_to_string[node]))return 0;
+        int& ret=mem[node];
+        if(~ret)return ret;
+        ret=0;
+        for(int nxt:adj_list[node]){
             ret=max(ret,dfs(nxt,node));
         }
-        return mp[node]=ret+1;
+        ret+=1;
+        return ret;
     }
 };
 

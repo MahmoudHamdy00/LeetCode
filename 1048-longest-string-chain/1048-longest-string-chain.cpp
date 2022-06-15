@@ -1,0 +1,44 @@
+class Solution {
+    int mem[1001][1001];
+    map<string,int>string_to_int;
+    string int_to_string[1001];
+public:
+    static bool cmp(string &a,string &b){
+        return a.size()<b.size();
+    }
+    bool is_predecessor(string &a,string& b){
+        if(a.size()>=b.size())return 0;
+        bool ok=0;
+        for(int i=0,j=0;i<b.size();++i){
+            if(a[j]==b[i])++j;
+            else if(ok) return 0;
+            else ok=1;
+        }
+        return 1;
+    }
+    int longestStrChain(vector<string>& words) {
+        sort(words.begin(),words.end(),cmp);
+        for(int i=0;i<words.size();++i){
+            if(string_to_int.find(words[i])==string_to_int.end()){
+                int id=string_to_int.size();
+                string_to_int[words[i]]=id;
+                int_to_string[id]=words[i];
+            }
+        }
+        memset(mem,-1,sizeof mem);
+        int ret=0;
+        for(int i=0;i<words.size();++i){
+            ret=max(ret,longestStrChain(i,string_to_int[words[i]],words)+1);
+        }
+        return ret;
+    }
+    int longestStrChain(int i,int lst,vector<string>& words) {
+        if(i==words.size())return 0;
+        int &ret=mem[i][lst];
+        if(~ret)return ret;
+        ret=longestStrChain(i+1,lst,words);
+        if(is_predecessor(int_to_string[lst],words[i]))
+            ret=max(ret,longestStrChain(i+1,string_to_int[words[i]],words)+1);
+        return ret;      
+    }
+};

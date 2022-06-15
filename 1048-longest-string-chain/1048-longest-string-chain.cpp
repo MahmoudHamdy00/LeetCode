@@ -6,6 +6,46 @@ public:
         int n=words.size();
         for(int i=0;i<n;++i){
             for(int j=0;j<n;++j){
+                if(is_predecessor(words[i],words[j]))adj_list[words[i]].push_back(words[j]);
+            }
+        }
+        int ret=0;
+        string t="1";
+        for(string s:words)ret=max(ret,dfs(s,t));
+        return ret;
+    }
+    bool is_predecessor(string &a,string& b){
+        if(a.size()>=b.size())return 0;
+        bool ok=0;
+        for(int i=0,j=0;i<b.size();++i){
+            if(a[j]==b[i])++j;
+            else if(ok) return 0;
+            else ok=1;
+        }
+        return 1;
+    }
+    int dfs(string& node,string &prv){
+        if(mp.find(node)!=mp.end())return mp[node];
+        int ret=0;
+        for(string nxt:adj_list[node]){
+            ret=max(ret,dfs(nxt,node));
+        }
+        return mp[node]=ret+1;
+    }
+};
+
+
+
+/*
+//dfs solution
+class Solution {
+    map<string,vector<string>>adj_list;
+    map<string,int>mp;
+public:
+    int longestStrChain(vector<string>& words) {
+        int n=words.size();
+        for(int i=0;i<n;++i){
+            for(int j=0;j<n;++j){
                 if(words[i].size()+1==words[j].size())adj_list[words[i]].push_back(words[j]);
             }
         }
@@ -35,10 +75,7 @@ public:
         return mp[node]=ret+1;
     }
 };
-
-
-
-
+*/
 
 
 

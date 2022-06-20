@@ -3,7 +3,7 @@ public:
     int minimumLengthEncoding(vector<string>& words) {
         if(words.size()==0)return 0;
         int cnt=0;
-        set<string>st;
+        unordered_set<string>st;
         for(string& s:words)
             st.insert(s);
         for(string& s:words)

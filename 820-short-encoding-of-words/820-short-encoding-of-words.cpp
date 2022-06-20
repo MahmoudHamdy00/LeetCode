@@ -10,7 +10,7 @@ public:
             for(int i=1;i<s.size();++i){
                 st.erase(s.substr(i));
             }
-        for(auto s:st)
+        for(auto &s:st)
             cnt+=s.size()+1;
         
         return cnt;

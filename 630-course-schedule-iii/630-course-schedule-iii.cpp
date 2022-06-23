@@ -2,7 +2,7 @@ class Solution {
 public:
     int scheduleCourse(vector<vector<int>>& courses) {
         sort(courses.begin(),courses.end(),cmp);
-        priority_queue<int,vector<int>,Compfunc>pq;
+        priority_queue<int>pq;
         int lst=0;
         for(auto&it:courses){
             if(lst+it[0]<=it[1]){
@@ -18,11 +18,6 @@ public:
         }
         return pq.size();
     }
-    struct Compfunc {
-        bool operator() (const int &a, const int &b) {
-            return a<b;
-        }
-    };
     static bool cmp(vector<int>&a,vector<int>&b){
         return a[1]<b[1];
     }

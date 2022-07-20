@@ -11,23 +11,25 @@
  */
 class Solution {
 public:
-    vector<vector<int>>ret;
-    map<int,vector<int>>mp;
     vector<vector<int>> levelOrder(TreeNode* root) {
         if(root==nullptr)return {};
-        ret.push_back({root->val});
-        build(root,0);
-        for(auto it:mp)ret.push_back(it.second);
+        vector<vector<int>>ret;
+        queue<TreeNode*>q;
+        q.push(root);
+        int sz;
+        do{
+            sz=q.size();
+            vector<int>currentLevel;
+            while(sz--){
+                TreeNode* currentNode=q.front();q.pop();
+                currentLevel.push_back(currentNode->val);
+                if(currentNode->left)
+                    q.push(currentNode->left);
+                if(currentNode->right)   
+                    q.push(currentNode->right);
+            }
+            ret.push_back(currentLevel);
+        }while(!q.empty());
         return ret;
-    }
-    void build(TreeNode* root,int order){
-        if(root==nullptr)return ;
-        if(root->left!=nullptr)
-            mp[order].push_back(root->left->val);
-        if(root->right!=nullptr)
-            mp[order].push_back(root->right->val);
-        build(root->left,order+1);
-        build(root->right,order+1);
-        return;
     }
 };

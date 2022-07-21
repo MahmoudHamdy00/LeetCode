@@ -22,7 +22,6 @@ public:
                     tmp->next=st;
                     
                     st=tmp;
-                 //   if(i==right)break;
                     tmp=nxt;
                 }
                 if(prv)
@@ -31,7 +30,6 @@ public:
                 if(tmp)
                     ed->next=tmp;
                 else ed->next=nullptr;
-                ++i;
             }
             prv=tmp;
             if(tmp)

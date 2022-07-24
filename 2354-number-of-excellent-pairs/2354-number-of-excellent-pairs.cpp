@@ -15,17 +15,10 @@ public:
         }
         sort(v.begin(),v.end());
         long long ans=0;        
-       /// for(int i=0;i<v.size();++i)cout<<v[i]<<" ";
-        //cout<<endl;
-
         for(int i=0;i<v.size();++i){
             int idx=lower_bound(v.begin(),v.end(),k-v[i])-v.begin();
-            //cout<<v[i]<<" "<<v[idx]<<endl;
             ans+=v.size()-idx;
         }
-          //      cout<<endl;
-       // cout<<endl;
-
         return ans;
     }
 };

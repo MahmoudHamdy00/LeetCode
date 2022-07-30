@@ -11,7 +11,7 @@ public:
             }
         }
         vector<string>v;
-        set<string>st;
+        unordered_set<string>st;
         for(string &s:words1){
             if(st.count(s))continue;
             int cur[26]={0};

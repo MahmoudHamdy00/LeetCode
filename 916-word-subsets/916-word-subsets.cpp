@@ -11,9 +11,7 @@ public:
             }
         }
         vector<string>v;
-        unordered_set<string>st;
         for(string &s:words1){
-            if(st.count(s))continue;
             int cur[26]={0};
             for(char &ch:s)
                 ++cur[ch-'a'];
@@ -25,10 +23,8 @@ public:
                 }              
                
             }
-            if(ok){
+            if(ok)
                 v.push_back(s);
-                st.insert(s);
-            }
         }
         return v;        
     }

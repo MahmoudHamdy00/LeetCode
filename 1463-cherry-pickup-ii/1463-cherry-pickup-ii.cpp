@@ -14,19 +14,13 @@ public:
         int cur=grid[i][j1];
         if(j1!=j2)cur+=grid[i][j2];
         if(i==grid.size()-1)return cur;
-        int op1=cherryPickup(i+1,j1-1,j2-1,grid);
-        int op2=cherryPickup(i+1,j1-1,j2,grid);
-        int op3=cherryPickup(i+1,j1-1,j2+1,grid);
-        
-        int op4=cherryPickup(i+1,j1,j2-1,grid);
-        int op5=cherryPickup(i+1,j1,j2,grid);
-        int op6=cherryPickup(i+1,j1,j2+1,grid);
-        
-        int op7=cherryPickup(i+1,j1+1,j2-1,grid);
-        int op8=cherryPickup(i+1,j1+1,j2,grid);
-        int op9=cherryPickup(i+1,j1+1,j2+1,grid);
-        
-        return ret=cur+max({op1,op2,op3,op4,op5,op6,op7,op8,op9});
+        ret=cur;
+        for(int d1=-1;d1<=1;++d1){
+            for(int d2=-1;d2<=1;++d2){
+                ret=max(ret,cur+cherryPickup(i+1,j1+d1,j2+d2,grid));
+            }
+        }
+        return ret;
     }
     bool is_valid(int i,int j,int n,int m){
         return i>=0&&j>=0&&i<n&&j<m;
